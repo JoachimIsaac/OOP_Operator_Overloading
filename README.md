@@ -1,5 +1,5 @@
 # OOP_Operator_Overloading
-Program that utilizes operator overloading to compute the matrix multiplication, addition etc.
+Program that utilizes operator overloading to compute matrix multiplication, addition etc.
 
 1. --> This is where all our files will be stored; So that every body has access. 
 2. --> I will give you a short summary to understand exactly how git hub works. 
