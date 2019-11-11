@@ -8,13 +8,23 @@ info for class , remember to put it !
 def read_input_files():
     input_list = []
     file_name = input("Please enter the input file name.\n")
+    counter = 0
+    tracker = []
+    temp_arr = []
 
     #Handles both the opening and closing of the file
     #when reading in values.
     with open(file_name,'r') as read_file:
-        for line in read_file:
-            input_list.append(line.split())
 
+        for line in read_file:
+            array = line.split()
+            tracker.append(len(array))
+
+            if len(array) == 2 and tracker[counter - 1] == 1:
+                    temp_arr[row_number] = array
+
+            input_list.append(line.split())
+            counter = counter + 1
         return input_list
 
 
