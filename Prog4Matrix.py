@@ -37,6 +37,7 @@ isSymmetric () vs. if, else
 class Matrix:
 
     def __init__(self,values,rows,cols):
+        #makes them private : .__variable_name
         self.__values = values
         self.__rows = rows
         self.__cols = cols
@@ -185,6 +186,10 @@ def transform_input_into_2darrays(array):
 matrix1 = Matrix([['2', '3', '4'], ['1', '5', '2']], 2 ,3)
 matrix2 = Matrix([['1', '1', '1'], ['3', '4', '5']], 2, 3)
 
+
+
+
+
 matrix1_str = matrix1.print_matrix()
 matrix2_str = matrix2.print_matrix()
 
@@ -192,12 +197,9 @@ summation = matrix1_str +"\n\n"+"+"+"\n\n"+matrix2_str
 
 print(summation)
 
-#
-# matrix3 = matrix + matrix2
-#
-# print(matrix1.values)
-# print(matrix1.rows)
-# print(matrix1.cols)
+
+
+
 
 
 
