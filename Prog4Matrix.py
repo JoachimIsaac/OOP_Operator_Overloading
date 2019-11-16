@@ -217,11 +217,43 @@ class ZeroOneMatrix(Matrix):
                 if int(values[r][c]) > 1 or int(values[r][c]) < 0:
                     values[r][c] = random.randrange(0,2)
 
-
+        self.__values = values
+        self.__rows = rows
+        self.__cols = cols
         super().__init__(values,rows,cols)
+        #figure out what happend
+
 
     def __add__(self, other):
-        
+        if len(self.__values) != len(other.__values) or len(self.__values[0]) != len(other.__values[0]):
+            # raise MatrixError("Trying to add Matrices of different dimensions")
+            print("Trying to join Matrices of different dimensions")
+            return None
+
+        result = [[1 for cols in range(self.__cols)] for row in range(self.__rows)]
+        for i in range(len(self.__values)):
+            # iterate through columns
+            for j in range(len(self.__values[0])):
+                result[i][j] = int(self.__values[i][j]) | int(other.__values[i][j])
+
+        return ZeroOneMatrix(result, len(result), len(result[0]))
+
+
+
+    def __pow__(self, other):
+        if len(self.__values) != len(other.__values) or len(self.__values[0]) != len(other.__values[0]):
+            # raise MatrixError("Trying to add Matrices of different dimensions")
+            print("Trying to meet Matrices of different dimensions")
+            return None
+
+        result = [[1 for cols in range(self.__cols)] for rows in range(self.__rows)]
+        for i in range(len(self.__values)):
+            # iterate through columns
+            for j in range(len(self.__values[0])):
+                result[i][j] = int(self.__values[i][j]) & int(other.__values[i][j])
+
+        return ZeroOneMatrix(result, len(result), len(result[0]))
+
 
 
 
@@ -353,7 +385,7 @@ def transform_input_into_2darrays(array):
 
 # [[4,1,9], [6,2,8], [7,3,5]]
 # [[2,9], [5,2], [1,0]]
-#
+#['Z'], ['2', '2'], [['1', '0'], ['0', '1']], ['2', '2'], [['1', '1'], ['1', '0']]
 
 matrix1 = Matrix([['2', '3', '4'], ['1', '5', '2'],['1', '5', '2']], 2 ,3)
 matrix2 = Matrix([['1', '1', '1'], ['3', '4', '5']], 2, 3)
@@ -362,12 +394,31 @@ matrix3 = Matrix([[4,1,9], [6,2,8], [7,3,5]],3,3)
 matrix4 = Matrix([[2,9], [5,2], [1,0]],3,2)
 
 
-matrixtest = ZeroOneMatrix([['-6', '-3', '-4'], ['-1', '-5', '-2'],['51', '5', '2']], 3 ,3)
+zmatrix1 = ZeroOneMatrix([['1', '0'], ['0', '1']],2,2)
+zmatrix2 = ZeroOneMatrix([['1', '1'], ['1', '0']],2,2)
 
 
-print(matrixtest.ToString())
-print(matrixtest.transpose())
-print(matrixtest.ToString())
+
+
+
+# print(zmatrix1.ToString())
+# print("^")
+# print(zmatrix2.ToString())
+# print()
+# zmatrix3 = zmatrix1 ** zmatrix2
+# print(zmatrix3.ToString())
+# print("\n\n")
+#
+#
+# print(zmatrix1.ToString())
+# print("v")
+# print(zmatrix2.ToString())
+#
+# zmatrix3 = zmatrix1 + zmatrix2
+# print("\n")
+# print(zmatrix3.ToString())
+
+
 
 # matrix3 = matrix1 * matrix2
 # 
