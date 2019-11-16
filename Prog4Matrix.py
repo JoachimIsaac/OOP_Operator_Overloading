@@ -32,9 +32,17 @@ for row loop:
 isSymmetric () vs. if, else 
 
 5. !!!!! --> set_matrix_values(values,row,columns) (idea) ---> ? what would be the get? do we need ? get_matrix_values()==> [[[1,2,3,4], [24,4,5,5]]],[row,columns]]
+
+6. read in the r or z , makes you know what matrix it is 
+
 """
+import random
+# class MatrixError(Exception):
+#     pass
 
 class Matrix:
+
+
 
     def __init__(self,values,rows,cols):
         #makes them private : .__variable_name
@@ -43,8 +51,141 @@ class Matrix:
         self.__cols = cols
 
 
+    def __add__(self, other):
+
+        if len(self.__values) != len(other.__values) or len(self.__values[0]) != len(other.__values[0]):
+            # raise MatrixError("Trying to add Matrices of different dimensions")
+            print("Trying to add Matrices of different dimensions")
+            return None
+
+
+        result = [[1 for x in range(self.__cols)] for y in range(self.__rows)]
+        for i in range(len(self.__values)):
+            # iterate through columns
+            for j in range(len(self.__values[0])):
+                result[i][j] = int(self.__values[i][j]) + int(other.__values[i][j])
+
+        return Matrix(result, len(result), len(result[0]))
+
+
+
+
+
+
+
+    def __mul__(self, other):
+
+        if(len(other.__values[0]) == len(self.__values)):
+            print("Matrices cannot be multiplied")
+            return None
+
+        matrix_container = [[0 for cols in range(len(other.__values[0]))] for rows in range(len(self.__values))]
+
+        # explicit for loops
+        for i in range(len(self.__values)):
+            for j in range(len(other.__values[0])):
+                for k in range(len(other.__values)):
+                    # resulted matrix
+                    matrix_container[i][j] += int(self.__values[i][k]) * int(other.__values[k][j])
+
+        return Matrix(matrix_container,len(matrix_container), len(matrix_container[0]))
+
+
+
+
+
+
+    def get_value(self, rows, cols):
+        return self.__values[rows][cols]
+
+
+
+
+    #should it only get the 2d matrix?
+    def get_values(self):
+        return self.__values
+
+
+
+
+    def set_dimensions(self,rows,cols):
+        if rows < 0:
+            rows = 2
+        if cols < 0:
+            cols = 2
+
+        self.__rows = rows
+        self.__cols = cols
+
+
+
+
+    def get_dimensions(self):
+        return [self.__rows,self.__cols]
+
+
+
+
+    def set_values(self,matrix_values):
+        if len(matrix_values) == 0:
+            w, h = 2, 2;
+            matrix_values= [[0 for x in range(w)] for y in range(h)]
+
+        self.__values = matrix_values
+
+
+
+    def transpose_str(self):
+        current_values = self.get_values()
+        result = [[1 for rows in range(self.__rows)] for cols in range(self.__cols)]
+
+        for i in range(len(current_values)):
+            # iterate through columns
+            for j in range(len(current_values[0])):
+                result[j][i] = current_values[i][j]
+        temp_Matrix = Matrix(result, self.__cols, self.__rows)
+
+        return temp_Matrix.ToString()
+
+
+    def transpose(self):
+
+        #load array with 1s with the transposed dimensions
+        result = [[1 for rows in range(self.__rows)] for cols in range(self.__cols)]
+
+        #iterate through orginial and load transposed array.
+        for i in range(len(self.__values)):
+            # iterate through columns
+            for j in range(len(self.__values[0])):
+                result[j][i] = self.__values[i][j]
+
+        #set_values of the transposed array into the original matrix object.
+        self.set_values(result)
+        self.set_dimensions(self.__cols, self.__rows)
+
+
+
+    def isSymmetric(self):
+        #created instnace of matrix which is a copy of the original.
+        transposed_matrix = Matrix(self.get_values(),self.__rows,self.__cols)
+
+        #transpose the matrix
+        transposed_matrix.transpose()
+
+        #check to see if matrix is equal to transposed.
+        for i in range(self.__rows):
+            for j in range(self.__cols):
+                if self.__values[i][j] != transposed_matrix.__values[i][j]:
+                    return False
+        return True
+
+
+
+
+
+
     #This prints a 2d matrix
-    def print_matrix (self):
+    def ToString(self):
         str_matrix = ""
         temp = ""
         for i in range(self.__rows):
@@ -61,6 +202,35 @@ class Matrix:
               str_matrix += "\n"
 
         return str_matrix
+
+
+
+
+
+
+
+
+class ZeroOneMatrix(Matrix):
+    def __init__(self,values,rows,cols):
+        for r in range(len(values)):
+            for c in range(len(values[0])):
+                if int(values[r][c]) > 1 or int(values[r][c]) < 0:
+                    values[r][c] = random.randrange(0,2)
+
+
+        super().__init__(values,rows,cols)
+
+    def __add__(self, other):
+        
+
+
+
+
+    
+
+
+
+
 
 
 
@@ -166,8 +336,6 @@ def transform_input_into_2darrays(array):
 
 
 
-
-
 # test to see how it reads it.
 # arr1 = read_input_files()
 # print(arr1)
@@ -183,19 +351,45 @@ def transform_input_into_2darrays(array):
 
 # ['2', '3'], [['1', '1', '1'], ['3', '4', '5']]
 
-matrix1 = Matrix([['2', '3', '4'], ['1', '5', '2']], 2 ,3)
+# [[4,1,9], [6,2,8], [7,3,5]]
+# [[2,9], [5,2], [1,0]]
+#
+
+matrix1 = Matrix([['2', '3', '4'], ['1', '5', '2'],['1', '5', '2']], 2 ,3)
 matrix2 = Matrix([['1', '1', '1'], ['3', '4', '5']], 2, 3)
 
+matrix3 = Matrix([[4,1,9], [6,2,8], [7,3,5]],3,3)
+matrix4 = Matrix([[2,9], [5,2], [1,0]],3,2)
+
+
+matrixtest = ZeroOneMatrix([['-6', '-3', '-4'], ['-1', '-5', '-2'],['51', '5', '2']], 3 ,3)
+
+
+print(matrixtest.ToString())
+print(matrixtest.transpose())
+print(matrixtest.ToString())
+
+# matrix3 = matrix1 * matrix2
+# 
+# 
+# 
+# 
+# print(matrix3)
+
+# matrix5 = matrix3 * matrix4
+#
+# print(matrix5.ToString())
 
 
 
-
-matrix1_str = matrix1.print_matrix()
-matrix2_str = matrix2.print_matrix()
-
-summation = matrix1_str +"\n\n"+"+"+"\n\n"+matrix2_str
-
-print(summation)
+#
+#
+# matrix1_str = matrix1.print_matrix()
+# matrix2_str = matrix2.print_matrix()
+#
+# summation = matrix1_str +"\n\n"+"+"+"\n\n"+matrix2_str
+#
+# print(summation)
 
 
 
