@@ -9,36 +9,8 @@ info
 
 
 
-"""
-{
-Matrix(class): 
-list[][]
-int rows 
-int columns 
-}
-
-1. parameterized constructor --> Matrix = new matrix(list,row,column)
-2. Matrix : operator --> *, + . 
-3. matrix1 + matrix 2 four things with then we changing them. reinitialize each loop. (MATRIX 1 =  new matrix(...) and for 2 )  
-4. 
-
-(google search) 
-transpose 
-for row loop: 
-    for cloumn loop(row + 1, array[]): 
-        [row][column] = [column][row]
-    
-    
-isSymmetric () vs. if, else 
-
-5. !!!!! --> set_matrix_values(values,row,columns) (idea) ---> ? what would be the get? do we need ? get_matrix_values()==> [[[1,2,3,4], [24,4,5,5]]],[row,columns]]
-
-6. read in the r or z , makes you know what matrix it is 
-
-"""
 import random
-# class MatrixError(Exception):
-#     pass
+
 
 class Matrix:
 
@@ -55,7 +27,7 @@ class Matrix:
 
         if len(self.__values) != len(other.__values) or len(self.__values[0]) != len(other.__values[0]):
             # raise MatrixError("Trying to add Matrices of different dimensions")
-            print("Trying to add Matrices of different dimensions")
+            outfile.write("Trying to add Matrices of different dimensions"+"\n\n")
             return None
 
 
@@ -70,13 +42,10 @@ class Matrix:
 
 
 
-
-
-
     def __mul__(self, other):
 
-        if(len(other.__values[0]) == len(self.__values)):
-            print("Matrices cannot be multiplied")
+        if(len(other.__values) != len(self.__values[0])):
+            outfile.write("Matrices cannot be multiplied"+"\n\n")
             return None
 
         matrix_container = [[0 for cols in range(len(other.__values[0]))] for rows in range(len(self.__values))]
@@ -176,15 +145,15 @@ class Matrix:
         for i in range(self.__rows):
             for j in range(self.__cols):
                 if self.__values[i][j] != transposed_matrix.__values[i][j]:
-                    return False
-        return True
+                    return "is not Symmetric"+"\n"
+        return "is Symmetric"+"\n"
 
 
 
 
 
 
-    #This prints a 2d matrix
+    #This  outfile.writes a 2d matrix
     def ToString(self):
         str_matrix = ""
         temp = ""
@@ -227,7 +196,7 @@ class ZeroOneMatrix(Matrix):
     def __add__(self, other):
         if len(self.__values) != len(other.__values) or len(self.__values[0]) != len(other.__values[0]):
             # raise MatrixError("Trying to add Matrices of different dimensions")
-            print("Trying to join Matrices of different dimensions")
+            outfile.write("Trying to join Matrices of different dimensions"+"\n\n")
             return None
 
         result = [[1 for cols in range(self.__cols)] for row in range(self.__rows)]
@@ -243,7 +212,7 @@ class ZeroOneMatrix(Matrix):
     def __pow__(self, other):
         if len(self.__values) != len(other.__values) or len(self.__values[0]) != len(other.__values[0]):
             # raise MatrixError("Trying to add Matrices of different dimensions")
-            print("Trying to meet Matrices of different dimensions")
+            outfile.write("Trying to meet Matrices of different dimensions"+"\n\n")
             return None
 
         result = [[1 for cols in range(self.__cols)] for rows in range(self.__rows)]
@@ -361,7 +330,11 @@ def transform_input_into_2darrays(array):
     return results
 
 
-
+#Reads in input file name and returns a file object.
+def open_output_file():
+    outfile = input("Please enter output file name: \n")
+    file = open(outfile,'w')
+    return file
 
 
 
@@ -369,9 +342,89 @@ def transform_input_into_2darrays(array):
 
 
 # test to see how it reads it.
-# arr1 = read_input_files()
-# print(arr1)
-# print(arr1[3])
+input_values = read_input_files()
+outfile = open_output_file()
+
+
+
+
+
+
+
+
+# while iterations < input_values[0][0]:
+
+for position in range(1,len(input_values)):
+    if len(input_values[position]) == 1:
+        if input_values[position][0] == 'R':
+            matrix1 = Matrix(input_values[position + 2],int(input_values[position + 1][0]),int(input_values[position + 1][1]))
+            position = position + 3
+            matrix2 = Matrix(input_values[position + 1],int(input_values[position][0]),int(input_values[position][1]))
+
+            outfile.write("Multiplication:" + "\n\n" + matrix1.ToString()+ "\n" + "*" + "\n" + matrix2.ToString()+"\n\n")
+            matrix3 = matrix1 * matrix2
+            if matrix3 != None:
+                outfile.write("=  " +"\n"+ matrix3.ToString()+"\n\n\n")
+
+            outfile.write("Summation:" + "\n\n" + matrix1.ToString() + "\n" + "+" + "\n" + matrix2.ToString() + "\n\n")
+            matrix3 = matrix1 + matrix2
+            if matrix3 != None:
+                outfile.write("=  " + "\n" + matrix3.ToString() + "\n\n")
+
+            outfile.write("\n"+ "Transpose:"+"\n\n")
+            outfile.write("Matrix1:" + "\n" + matrix1.ToString()+"\n\n")
+            outfile.write("Transposed:" + "\n" + matrix1.transpose_str()+"\n\n")
+            outfile.write("Matrix2:" + "\n" + matrix2.ToString() + "\n\n")
+            outfile.write("Transposed:" + "\n" + matrix2.transpose_str()+"\n\n\n")
+
+            outfile.write("Symmetry:"+"\n\n")
+            outfile.write("Matrix1:" + "\n" + matrix1.ToString() + "\n\n" + matrix1.isSymmetric()+"\n\n")
+            outfile.write("Matrix2:" + "\n" + matrix2.ToString() + "\n\n" + matrix2.isSymmetric()+"\n\n")
+
+        elif input_values[position][0] == 'Z':
+            zmatrix1 = ZeroOneMatrix(input_values[position + 2], int(input_values[position + 1][0]),
+                             int(input_values[position + 1][1]))
+            position = position + 3
+            zmatrix2 = ZeroOneMatrix(input_values[position + 1], int(input_values[position][0]), int(input_values[position][1]))
+
+            outfile.write("Join:" + "\n\n" + zmatrix1.ToString() + "\n" + "v" + "\n" + zmatrix2.ToString() + "\n\n")
+            zmatrix3 = zmatrix1 + zmatrix2
+            if zmatrix3 != None:
+                 outfile.write("=  " + "\n" + zmatrix3.ToString() + "\n\n\n")
+
+            outfile.write("Meet:" + "\n\n" + zmatrix1.ToString() + "\n" + "∧" + "\n" + zmatrix2.ToString() + "\n\n")
+            zmatrix3 = zmatrix1 ** zmatrix2
+            if zmatrix3 != None:
+                 outfile.write("=  " + "\n" + zmatrix3.ToString() + "\n\n")
+
+            outfile.write("\n" + "Transpose:" + "\n\n")
+            outfile.write("Matrix1:" + "\n" + zmatrix1.ToString() + "\n\n")
+            outfile.write("Transposed:" + "\n" + zmatrix1.transpose_str() + "\n\n")
+            outfile.write("Matrix2:" + "\n" + zmatrix2.ToString() + "\n\n")
+            outfile.write("Transposed:" + "\n" + zmatrix2.transpose_str() + "\n\n\n")
+
+            outfile.write("Symmetry:" + "\n\n")
+            outfile.write("Matrix1:" + "\n" + zmatrix1.ToString() + "\n\n" + zmatrix1.isSymmetric() + "\n\n")
+            outfile.write("Matrix2:" + "\n" + zmatrix2.ToString() + "\n\n" + zmatrix2.isSymmetric() + "\n\n")
+
+outfile.close()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#  outfile.write(arr1[3])
 
 #arr1[n] = acessing a whole array
 #arr[n][n] = a value within the array [[n]]
@@ -387,36 +440,37 @@ def transform_input_into_2darrays(array):
 # [[2,9], [5,2], [1,0]]
 #['Z'], ['2', '2'], [['1', '0'], ['0', '1']], ['2', '2'], [['1', '1'], ['1', '0']]
 
-matrix1 = Matrix([['2', '3', '4'], ['1', '5', '2'],['1', '5', '2']], 2 ,3)
-matrix2 = Matrix([['1', '1', '1'], ['3', '4', '5']], 2, 3)
-
-matrix3 = Matrix([[4,1,9], [6,2,8], [7,3,5]],3,3)
-matrix4 = Matrix([[2,9], [5,2], [1,0]],3,2)
-
-
-zmatrix1 = ZeroOneMatrix([['1', '0'], ['0', '1']],2,2)
-zmatrix2 = ZeroOneMatrix([['1', '1'], ['1', '0']],2,2)
-
-
+# matrix1 = Matrix([['2', '3', '4'], ['1', '5', '2'],['1', '5', '2']], 2 ,3)
+# matrix2 = Matrix([['1', '1', '1'], ['3', '4', '5']], 2, 3)
+#
+# matrix3 = Matrix([[4,1,9], [6,2,8], [7,3,5]],3,3)
+# matrix4 = Matrix([[2,9], [5,2], [1,0]],3,2)
+#
+#
+# zmatrix1 = ZeroOneMatrix([['1', '0'], ['0', '1']],2,2)
+# zmatrix2 = ZeroOneMatrix([['1', '1'], ['1', '0']],2,2)
 
 
 
-# print(zmatrix1.ToString())
-# print("^")
-# print(zmatrix2.ToString())
-# print()
+
+
+
+#  outfile.write(zmatrix1.ToString())
+#  outfile.write("^")
+#  outfile.write(zmatrix2.ToString())
+#  outfile.write()
 # zmatrix3 = zmatrix1 ** zmatrix2
-# print(zmatrix3.ToString())
-# print("\n\n")
+#  outfile.write(zmatrix3.ToString())
+#  outfile.write("\n\n")
 #
 #
-# print(zmatrix1.ToString())
-# print("v")
-# print(zmatrix2.ToString())
+#  outfile.write(zmatrix1.ToString())
+#  outfile.write("v")
+#  outfile.write(zmatrix2.ToString())
 #
 # zmatrix3 = zmatrix1 + zmatrix2
-# print("\n")
-# print(zmatrix3.ToString())
+#  outfile.write("\n")
+#  outfile.write(zmatrix3.ToString())
 
 
 
@@ -425,22 +479,22 @@ zmatrix2 = ZeroOneMatrix([['1', '1'], ['1', '0']],2,2)
 # 
 # 
 # 
-# print(matrix3)
+#  outfile.write(matrix3)
 
 # matrix5 = matrix3 * matrix4
 #
-# print(matrix5.ToString())
+#  outfile.write(matrix5.ToString())
 
 
 
 #
 #
-# matrix1_str = matrix1.print_matrix()
-# matrix2_str = matrix2.print_matrix()
+# matrix1_str = matrix1. outfile.write_matrix()
+# matrix2_str = matrix2. outfile.write_matrix()
 #
 # summation = matrix1_str +"\n\n"+"+"+"\n\n"+matrix2_str
 #
-# print(summation)
+#  outfile.write(summation)
 
 
 
@@ -450,8 +504,8 @@ zmatrix2 = ZeroOneMatrix([['1', '1'], ['1', '0']],2,2)
 
 
 
-#This prints a 2d matrix
-# def print_matrix(matrix):
+#This  outfile.writes a 2d matrix
+# def  outfile.write_matrix(matrix):
 #     str_matrix = ""
 #     temp = ""
 #     for i in range(len(matrix)):
@@ -463,4 +517,4 @@ zmatrix2 = ZeroOneMatrix([['1', '1'], ['1', '0']],2,2)
 #
 #         if j == len(matrix[i]) - 1:
 #           str_matrix += "\n"
-#     print(str_matrix)
+#      outfile.write(str_matrix)
