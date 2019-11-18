@@ -1,0 +1,191 @@
+Multiplication:
+
+2 3 4 
+1 5 2 
+*
+1 1 1 
+3 4 5 
+
+Matrices cannot be multiplied
+
+Summation:
+
+2 3 4 
+1 5 2 
++
+1 1 1 
+3 4 5 
+
+=  
+3 4 5 
+4 9 7 
+
+
+Transpose:
+
+Matrix1:
+2 3 4 
+1 5 2 
+
+Transposed:
+2 1 
+3 5 
+4 2 
+
+Matrix2:
+1 1 1 
+3 4 5 
+
+Transposed:
+1 3 
+1 4 
+1 5 
+
+
+Symmetry:
+
+Matrix1:
+2 3 4 
+1 5 2 
+
+is not Symmetric
+
+
+Matrix2:
+1 1 1 
+3 4 5 
+
+is not Symmetric
+
+
+##########################################################
+
+
+Multiplication:
+
+1 2 3 
+4 5 6 
+7 8 9 
+*
+1 1 
+1 1 
+
+Matrices cannot be multiplied
+
+Summation:
+
+1 2 3 
+4 5 6 
+7 8 9 
++
+1 1 
+1 1 
+
+Trying to add Matrices of different dimensions
+
+
+Transpose:
+
+Matrix1:
+1 2 3 
+4 5 6 
+7 8 9 
+
+Transposed:
+1 4 7 
+2 5 8 
+3 6 9 
+
+Matrix2:
+1 1 
+1 1 
+
+Transposed:
+1 1 
+1 1 
+
+
+Symmetry:
+
+Matrix1:
+1 2 3 
+4 5 6 
+7 8 9 
+
+is not Symmetric
+
+
+Matrix2:
+1 1 
+1 1 
+
+is Symmetric
+
+
+##########################################################
+
+
+Join:
+
+1 0 
+0 1 
+v
+1 1 
+1 0 
+
+=  
+1 1 
+1 1 
+
+
+Meet:
+
+1 0 
+0 1 
+∧
+1 1 
+1 0 
+
+=  
+1 0 
+0 0 
+
+
+Transpose:
+
+Matrix1:
+1 0 
+0 1 
+
+Transposed:
+1 0 
+0 1 
+
+Matrix2:
+1 1 
+1 0 
+
+Transposed:
+1 1 
+1 0 
+
+
+Symmetry:
+
+Matrix1:
+1 0 
+0 1 
+
+is Symmetric
+
+
+Matrix2:
+1 1 
+1 0 
+
+is Symmetric
+
+
+##########################################################
+
+
